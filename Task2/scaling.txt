@@ -1,0 +1,197 @@
+
+$ kubectl --context=insuretech-task2 get deployment scaletestapp
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+scaletestapp   2/2     2            2           9m47s
+
+$ kubectl --context=insuretech-task2 get pods -l app=scaletestapp
+NAME                           READY   STATUS    RESTARTS   AGE
+scaletestapp-9596bd8d5-8mbtv   1/1     Running   0          80s
+scaletestapp-9596bd8d5-bpn94   1/1     Running   0          17s
+
+$ kubectl --context=insuretech-task2 get apiservice v1beta1.metrics.k8s.io
+NAME                     SERVICE                      AVAILABLE   AGE
+v1beta1.metrics.k8s.io   kube-system/metrics-server   True        9m48s
+
+GET http://192.168.85.2:31727/
+Идентификатор пода: scaletestapp-9596bd8d5-8mbtv
+
+GET http://192.168.85.2:31727/metrics
+http_requests_total 1
+
+2026-09-28T17:39:46+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 16%/80%   1         10        2          78s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   1m           1Mi             
+
+$ /tmp/insuretech-task2-venv/bin/locust -f Task2/locustfile.py --headless --host http://192.168.85.2:31727 --users 1000 --spawn-rate 5 --run-time 5m --only-summary
+
+2026-09-28T17:40:16+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 16%/80%   1         10        2          108s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   1m           1Mi             
+
+2026-09-28T17:40:46+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 56%/80%   1         10        2          2m18s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   3m           6Mi             
+scaletestapp-9596bd8d5-bpn94   3m           5Mi             
+
+2026-09-28T17:41:16+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 56%/80%   1         10        2          2m48s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   3m           6Mi             
+scaletestapp-9596bd8d5-bpn94   3m           5Mi             
+
+2026-09-28T17:41:46+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS            MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 107%/80%   1         10        3          3m18s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   10m          10Mi            
+scaletestapp-9596bd8d5-bpn94   10m          11Mi            
+
+2026-09-28T17:42:16+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS            MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 107%/80%   1         10        3          3m48s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   10m          10Mi            
+scaletestapp-9596bd8d5-bpn94   10m          11Mi            
+
+2026-09-28T17:42:46+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS            MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 114%/80%   1         10        5          4m18s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   15m          13Mi            
+scaletestapp-9596bd8d5-bpn94   14m          13Mi            
+scaletestapp-9596bd8d5-f87nb   4m           6Mi             
+
+2026-09-28T17:43:16+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS            MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 114%/80%   1         10        5          4m49s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   15m          13Mi            
+scaletestapp-9596bd8d5-bpn94   14m          13Mi            
+scaletestapp-9596bd8d5-f87nb   4m           6Mi             
+
+2026-09-28T17:43:47+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 99%/80%   1         10        7          5m19s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   17m          17Mi            
+scaletestapp-9596bd8d5-bpn94   17m          16Mi            
+scaletestapp-9596bd8d5-d9lgd   2m           4Mi             
+scaletestapp-9596bd8d5-ddc7x   2m           3Mi             
+scaletestapp-9596bd8d5-f87nb   7m           8Mi             
+
+2026-09-28T17:44:17+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 99%/80%   1         10        7          5m49s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   17m          17Mi            
+scaletestapp-9596bd8d5-bpn94   17m          16Mi            
+scaletestapp-9596bd8d5-d9lgd   2m           4Mi             
+scaletestapp-9596bd8d5-ddc7x   2m           3Mi             
+scaletestapp-9596bd8d5-f87nb   7m           8Mi             
+
+2026-09-28T17:44:47+03:00
+
+$ kubectl --context=insuretech-task2 get hpa scaletestapp
+NAME           REFERENCE                 TARGETS           MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp   Deployment/scaletestapp   memory: 84%/80%   1         10        7          6m19s
+
+$ kubectl --context=insuretech-task2 top pods -l app=scaletestapp
+NAME                           CPU(cores)   MEMORY(bytes)   
+scaletestapp-9596bd8d5-8mbtv   16m          17Mi            
+scaletestapp-9596bd8d5-bpn94   16m          17Mi            
+scaletestapp-9596bd8d5-d9lgd   2m           5Mi             
+scaletestapp-9596bd8d5-ddc7x   2m           4Mi             
+scaletestapp-9596bd8d5-f87nb   7m           10Mi            
+scaletestapp-9596bd8d5-lxgqp   1m           1Mi             
+scaletestapp-9596bd8d5-sfdgm   1m           1Mi             
+
+Locust exit code: 0
+
+$ kubectl --context=insuretech-task2 get deployment scaletestapp
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+scaletestapp   7/7     7            7           14m
+
+$ kubectl --context=insuretech-task2 get pods -l app=scaletestapp
+NAME                           READY   STATUS    RESTARTS   AGE
+scaletestapp-9596bd8d5-8mbtv   1/1     Running   0          6m21s
+scaletestapp-9596bd8d5-bpn94   1/1     Running   0          5m18s
+scaletestapp-9596bd8d5-d9lgd   1/1     Running   0          2m18s
+scaletestapp-9596bd8d5-ddc7x   1/1     Running   0          2m18s
+scaletestapp-9596bd8d5-f87nb   1/1     Running   0          3m18s
+scaletestapp-9596bd8d5-lxgqp   1/1     Running   0          78s
+scaletestapp-9596bd8d5-sfdgm   1/1     Running   0          78s
+
+$ kubectl --context=insuretech-task2 describe hpa scaletestapp
+Name:                                                     scaletestapp
+Namespace:                                                default
+Labels:                                                   <none>
+Annotations:                                              <none>
+CreationTimestamp:                                        Mon, 28 Sep 2026 17:38:28 +0300
+Reference:                                                Deployment/scaletestapp
+Metrics:                                                  ( current / target )
+  resource memory on pods  (as a percentage of request):  84% (8816932571m) / 80%
+Min replicas:                                             1
+Max replicas:                                             10
+Deployment pods:                                          7 current / 7 desired
+Conditions:
+  Type            Status  Reason              Message
+  ----            ------  ------              -------
+  AbleToScale     True    ReadyForNewScale    recommended size matches current size
+  ScalingActive   True    ValidMetricFound    the HPA was able to successfully calculate a replica count from memory resource utilization (percentage of request)
+  ScalingLimited  False   DesiredWithinRange  the desired count is within the acceptable range
+Events:
+  Type     Reason                        Age                    From                       Message
+  ----     ------                        ----                   ----                       -------
+  Warning  FailedGetResourceMetric       5m33s (x4 over 6m18s)  horizontal-pod-autoscaler  failed to get memory utilization: unable to get metrics for resource memory: no metrics returned from resource metrics API
+  Warning  FailedComputeMetricsReplicas  5m33s (x4 over 6m18s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get memory resource metric value: failed to get memory utilization: unable to get metrics for resource memory: no metrics returned from resource metrics API
+  Normal   SuccessfulRescale             5m18s                  horizontal-pod-autoscaler  New size: 2; reason:
+  Normal   SuccessfulRescale             3m18s                  horizontal-pod-autoscaler  New size: 3; reason: memory resource utilization (percentage of request) above target
+  Normal   SuccessfulRescale             2m18s                  horizontal-pod-autoscaler  New size: 5; reason: memory resource utilization (percentage of request) above target
+  Normal   SuccessfulRescale             78s                    horizontal-pod-autoscaler  New size: 7; reason: memory resource utilization (percentage of request) above target

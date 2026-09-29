@@ -1,16 +1,13 @@
-# Operating system files
 .DS_Store
 Thumbs.db
 Desktop.ini
 
-# Editors and IDEs
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
 
-# Local environment and secrets
 .env
 .env.*
 !.env.example
@@ -18,15 +15,15 @@ Desktop.ini
 !.env.sample
 !.env.template
 
-# Logs and temporary files
 *.log
 *.tmp
 *.temp
 tmp/
 temp/
 
-# Generated files and caches
 /build/
 /dist/
 /coverage/
 .cache/
+.venv/
+__pycache__/
